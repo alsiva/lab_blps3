@@ -1,0 +1,26 @@
+<users>
+    <user>
+        <name>
+            <first>Антон</first>
+            <last>Иванов</last>
+        </name>
+        <password>1234</password>
+        <email>anton@mail.ru</email>
+        <roles>
+            <user_role>true</user_role>
+            <admin_role>false</admin_role>
+        </roles>
+    </user>
+    <user>
+        <name>
+            <first>1ffff</first>
+            <last>1sssss</last>
+        </name>
+        <password>1234</password>
+        <email>a2noasdf@mail.ru</email>
+        <roles>
+            <user_role>true</user_role>
+            <admin_role>false</admin_role>
+        </roles>
+    </user>
+</users>
