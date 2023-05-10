@@ -12,9 +12,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
     public Optional<User> getByEmail(@NonNull String login) throws ParsingException, IOException {
-        return XMLReader.getByEmailFromXml(login);
+        return XMLService.getByEmailFromXml(login);
     }
 
 }

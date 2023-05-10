@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <users>
     <user>
         <name>
@@ -5,7 +6,7 @@
             <last>Иванов</last>
         </name>
         <password>1234</password>
-        <email>anton@mail.ru</email>
+        <email>vasilkov.a.c@yandex.ru</email>
         <roles>
             <user_role>true</user_role>
             <admin_role>false</admin_role>
@@ -17,7 +18,31 @@
             <last>1sssss</last>
         </name>
         <password>1234</password>
-        <email>a2noasdf@mail.ru</email>
+        <email>itmostud@yandex.ru</email>
+        <roles>
+            <user_role>true</user_role>
+            <admin_role>true</admin_role>
+        </roles>
+    </user>
+    <user>
+        <name>
+            <first>sd</first>
+            <last>asd</last>
+        </name>
+        <password>12313</password>
+        <email>qewq@mail.ru</email>
+        <roles>
+            <user_role>true</user_role>
+            <admin_role>false</admin_role>
+        </roles>
+    </user>
+    <user>
+        <name>
+            <first>firstname</first>
+            <last>lastname</last>
+        </name>
+        <password>1234</password>
+        <email>email2@a.rt</email>
         <roles>
             <user_role>true</user_role>
             <admin_role>false</admin_role>
