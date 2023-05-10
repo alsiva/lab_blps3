@@ -1,11 +1,12 @@
 package vasilkov.labbpls2.service;
 
 
-import lombok.AllArgsConstructor;
 import nu.xom.ParsingException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,14 +32,27 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class OrderService {
+    @Autowired
     EmailService emailService;
+
+    @Autowired
     UserService userService;
+
+    @Autowired
     BrandRepository brandRepository;
+
+    @Autowired
     ModelRepository modelRepository;
+
+    @Autowired
     OrderRepository orderRepository;
+
+    @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    JavaMailSenderImpl javaMailSender;
 
     @Transactional
     public MessageResponse save(OrderRequest orderRequestModel) throws ParsingException, IOException {
@@ -78,7 +92,7 @@ public class OrderService {
                     "Здравствуйте!\n" +
                             "Вам пришло новое объявление на модерацию!\n" +
                             "Id этого объявления: " + orders.get(i).getId() + "\n" +
-                            "Спасибо!");
+                            "Спасибо!", javaMailSender);
         }
         return (new MessageResponse("order registered successfully!"));
 
@@ -134,7 +148,7 @@ public class OrderService {
                         "Ваша заявка прошла модерацию!\n" +
                         "Заявка на " + order.getDescription() + " " + emailMessage + "\n" +
                         adminMessage + "\n" +
-                        "Спасибо!");
+                        "Спасибо!", javaMailSender);
 
     }
 
