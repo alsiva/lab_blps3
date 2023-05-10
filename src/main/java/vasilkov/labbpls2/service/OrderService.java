@@ -2,7 +2,6 @@ package vasilkov.labbpls2.service;
 
 
 import nu.xom.ParsingException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
@@ -33,26 +32,36 @@ import java.util.Optional;
 
 @Service
 public class OrderService {
-    @Autowired
+    final
     EmailService emailService;
 
-    @Autowired
+    final
     UserService userService;
 
-    @Autowired
+    final
     BrandRepository brandRepository;
 
-    @Autowired
+    final
     ModelRepository modelRepository;
 
-    @Autowired
+    final
     OrderRepository orderRepository;
 
-    @Autowired
+    final
     ProductRepository productRepository;
 
-    @Autowired
+    final
     JavaMailSenderImpl javaMailSender;
+
+    public OrderService(EmailService emailService, UserService userService, BrandRepository brandRepository, ModelRepository modelRepository, OrderRepository orderRepository, ProductRepository productRepository, JavaMailSenderImpl javaMailSender) {
+        this.emailService = emailService;
+        this.userService = userService;
+        this.brandRepository = brandRepository;
+        this.modelRepository = modelRepository;
+        this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
+        this.javaMailSender = javaMailSender;
+    }
 
     @Transactional
     public MessageResponse save(OrderRequest orderRequestModel) throws ParsingException, IOException {
