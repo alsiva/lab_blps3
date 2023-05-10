@@ -91,4 +91,14 @@ public class AuthService {
             throw new AuthException("Зарегистрироваться не получилось!");
         }
     }
+
+    public void logout(@NonNull String refreshToken) throws Exception {
+        if (jwtProvider.validateRefreshToken(refreshToken)) {
+            final Claims claims = jwtProvider.getRefreshClaims(refreshToken);
+            final String email = claims.getSubject();
+            refreshStorage.remove(email);
+            return;
+        }
+        throw new AuthException("Невалидный JWT токен");
+    }
 }

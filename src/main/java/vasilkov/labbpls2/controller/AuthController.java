@@ -23,9 +23,6 @@ public class AuthController {
     @PostMapping("/singin")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest authRequest) throws Exception {
         final JwtResponse token = authService.login(authRequest);
-        emailService.sendSimpleMessage("vasilkov.a.c@yandex.ru",
-                "DROM.RU - Изменился статус объявления",
-                "Здравствуйте Спасибо!");
         return ResponseEntity.ok(token);
     }
 
@@ -55,6 +52,10 @@ public class AuthController {
         }
     }
 
-    // todo logout
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutUser(@RequestBody RefreshJwtRequest request) throws Exception {
+        authService.logout(request.getRefreshToken());
+        return ResponseEntity.ok(new MessageResponse("Log out successful!"));
+    }
 
 }
