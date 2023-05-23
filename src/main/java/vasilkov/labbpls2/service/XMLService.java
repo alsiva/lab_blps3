@@ -115,7 +115,7 @@ public class XMLService {
 
 
     public static Optional<List<String>> getAllAdminsEmail() throws ParsingException, IOException {
-
+//./src/main/resources/User.xml
         File file = new File("User.xml");
         Document doc = new Builder().build(file);
         Elements users = doc.getRootElement().getChildElements("user");
