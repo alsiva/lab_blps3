@@ -97,6 +97,7 @@ public class AuthService {
             final Claims claims = jwtProvider.getRefreshClaims(refreshToken);
             final String email = claims.getSubject();
             refreshStorage.remove(email);
+            SecurityContextHolder.clearContext();
             return;
         }
         throw new AuthException("Невалидный JWT токен");

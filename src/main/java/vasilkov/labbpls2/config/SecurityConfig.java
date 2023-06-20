@@ -21,19 +21,31 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
+        http
                 .httpBasic().disable()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeHttpRequests(
-                        authz -> authz
-                                .requestMatchers("/api/v1/auth/**").permitAll()
-                                .requestMatchers("/api/v1/admin/**").permitAll()
-                                .anyRequest().authenticated()
-                                .and()
-                                .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                ).build();
+                .authorizeHttpRequests()
+                .requestMatchers("/api/v1/auth/**").permitAll()
+                .requestMatchers("/api/v1/admin/**").hasAuthority("ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+//                .authorizeHttpRequests(
+//                        authz -> authz
+//                                .requestMatchers("/api/v1/auth/**").permitAll()
+//                                .requestMatchers("/api/v1/admin/**").permitAll()
+//                                .anyRequest().authenticated()
+//                                .and()
+//                                .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+//
+//                                .logout()
+//                                .logoutUrl("/api/v1/auth/logout")
+//                                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+//                )
+        return http.build();
     }
 
     @Bean

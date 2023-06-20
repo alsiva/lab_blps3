@@ -13,7 +13,7 @@ import java.util.*;
 public class XMLService {
     public static Optional<User> getByEmailFromXml(String emailQuery) throws ParsingException, IOException {
 
-        File file = new File("User.xml");
+        File file = new File("./src/main/resources/User.xml");
         Document doc = new Builder().build(file);
         Elements users = doc.getRootElement().getChildElements("user");
 
@@ -69,7 +69,7 @@ public class XMLService {
     }
 
     public static void addToXml(User user) throws IOException, ParsingException, AuthException {
-        File file = new File("User.xml");
+        File file = new File("./src/main/resources/User.xml");
         Document doc = new Builder().build(file);
         Element root = doc.getRootElement();
 
@@ -116,7 +116,7 @@ public class XMLService {
 
     public static Optional<List<String>> getAllAdminsEmail() throws ParsingException, IOException {
 //./src/main/resources/User.xml
-        File file = new File("User.xml");
+        File file = new File("./src/main/resources/User.xml");
         Document doc = new Builder().build(file);
         Elements users = doc.getRootElement().getChildElements("user");
         List<String> emails = new ArrayList<>();
