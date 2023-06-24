@@ -18,5 +18,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer>, JpaSpeci
 
     Optional<List<Order>> findAllByUserEmail(String currentEmail);
 
+    Order findOrderByStatusIsNull();
 
 }

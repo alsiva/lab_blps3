@@ -1,11 +1,16 @@
 package vasilkov.labbpls2.service;
 
 
+import jakarta.persistence.Id;
 import nu.xom.ParsingException;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +34,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class OrderService {
@@ -53,6 +59,12 @@ public class OrderService {
     final
     JavaMailSenderImpl javaMailSender;
 
+    @Autowired
+    RabbitTemplate template;
+
+    @Autowired
+    Queue queue;
+
     public OrderService(EmailService emailService, UserService userService, BrandRepository brandRepository, ModelRepository modelRepository, OrderRepository orderRepository, ProductRepository productRepository, JavaMailSenderImpl javaMailSender) {
         this.emailService = emailService;
         this.userService = userService;
@@ -63,6 +75,12 @@ public class OrderService {
         this.javaMailSender = javaMailSender;
     }
 
+    @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.MINUTES)
+    public void sendToQueue() {
+        Integer orderId = orderRepository.findOrderByStatusIsNull().getId();
+        String orderIdAsString = Integer.toString(orderId);
+        this.template.convertAndSend(queue.getName(), orderIdAsString);
+    }
     @Transactional
     public MessageResponse save(OrderRequest orderRequestModel) throws ParsingException, IOException {
         Order order = new Order();
