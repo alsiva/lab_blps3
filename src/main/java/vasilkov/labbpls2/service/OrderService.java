@@ -1,11 +1,9 @@
 package vasilkov.labbpls2.service;
 
 
-import jakarta.persistence.Id;
 import nu.xom.ParsingException;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
@@ -59,13 +57,13 @@ public class OrderService {
     final
     JavaMailSenderImpl javaMailSender;
 
-    @Autowired
+    final
     RabbitTemplate template;
 
-    @Autowired
+    final
     Queue queue;
 
-    public OrderService(EmailService emailService, UserService userService, BrandRepository brandRepository, ModelRepository modelRepository, OrderRepository orderRepository, ProductRepository productRepository, JavaMailSenderImpl javaMailSender) {
+    public OrderService(EmailService emailService, UserService userService, BrandRepository brandRepository, ModelRepository modelRepository, OrderRepository orderRepository, ProductRepository productRepository, JavaMailSenderImpl javaMailSender, RabbitTemplate template, Queue queue) {
         this.emailService = emailService;
         this.userService = userService;
         this.brandRepository = brandRepository;
@@ -73,6 +71,8 @@ public class OrderService {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.javaMailSender = javaMailSender;
+        this.template = template;
+        this.queue = queue;
     }
 
     @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.MINUTES)
